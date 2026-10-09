@@ -47,3 +47,58 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "บันทึกข้อมูลลูกค้าไม่สำเร็จ" });
   }
 });
+
+// ลบ router.put อันเก่าออก แล้วเอาอันนี้ไปวางแทนนะครับ
+router.put("/:id", async (req, res) => {
+  try {
+    let id = req.params.id; // รับ ID
+    let newCustomerData: Partial<Customer> = req.body; // Partial หมายถึง "รับมาแค่บางส่วนก็ได้"
+    
+    // 1. ไปดึงข้อมูลลูกค้า "คนเดิม" มาจากฐานข้อมูลก่อน
+    const [rows] = await conn.query("SELECT * FROM customers WHERE id = ?", [id]);
+    const result = rows as Customer[];
+
+    // ถ้าไม่เจอลูกค้าคนนี้ ให้ตอบกลับ 404
+    if (result.length === 0) {
+      return res.status(404).json({ error: "ไม่พบลูกค้ารายนี้" });
+    }
+
+    // 2. นำข้อมูล "เก่า" มาเป็นฐาน แล้วเอาข้อมูล "ใหม่" มาเขียนทับ (Merge)
+    let originalCustomer = result[0];
+    let updatedCustomer = { ...originalCustomer, ...newCustomerData };
+
+    // 3. เอาข้อมูลที่รวมร่างกันเสร็จแล้ว ไปเขียนทับลงฐานข้อมูล
+    let sql = "UPDATE `customers` SET `name`=?, `phone`=?, `lat`=?, `lng`=? WHERE `id`=?";
+    const [updateRows] = await conn.query(sql, [
+      updatedCustomer.name,
+      updatedCustomer.phone,
+      updatedCustomer.lat,
+      updatedCustomer.lng,
+      id
+    ]);
+    
+    res.status(200).json({ message: "อัปเดตข้อมูลสำเร็จ!" });
+
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(500).json({ error: "อัปเดตข้อมูลไม่สำเร็จ" });
+  }
+});
+
+// 4. API ลบลูกค้า (DELETE) - อ้างอิง 09-Delete.md
+router.delete("/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
+    const [result] = await conn.query("DELETE FROM customers WHERE id = ?", [id]);
+    const deleteResult = result as any;
+    
+    if (deleteResult.affectedRows === 0) {
+      return res.status(404).json({ error: "ไม่พบลูกค้ารายนี้" });
+    }
+    
+    res.status(200).json({ message: "ลบลูกค้าออกจากระบบแล้ว" });
+  } catch (error) {
+    console.error("Delete Error:", error);
+    res.status(500).json({ error: "ลบข้อมูลไม่สำเร็จ" });
+  }
+});
