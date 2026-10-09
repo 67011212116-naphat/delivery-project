@@ -2,31 +2,31 @@
 Phase 1: ตั้งไข่โปรเจกต์ (Setup & Infrastructure)
 เป้าหมายคือสร้างโปรเจกต์ โครงสร้างไฟล์ และเชื่อมต่อฐานข้อมูลให้พร้อมทำงาน
 
-[ ] สร้างโปรเจกต์และตั้งค่า TypeScript
+[X] สร้างโปรเจกต์และตั้งค่า TypeScript
 
 ไฟล์อ้างอิง: 01-Web API.md
 
 สิ่งที่ต้องทำ: เปิด Terminal สร้างโฟลเดอร์ รัน npm init --yes จากนั้นติดตั้ง TypeScript, Express, ts-node-dev และ @types/express ตามคำสั่งในไฟล์ สร้าง tsconfig.json, app.ts, และ server.ts เพื่อรันเซิร์ฟเวอร์ให้ติด
 
-[ ] ติดตั้งตัวแปลภาษาและเปิดรับรีเควสแบบ JSON
+[X] ติดตั้งตัวแปลภาษาและเปิดรับรีเควสแบบ JSON
 
 ไฟล์อ้างอิง: 04-Request Handler.md
 
 สิ่งที่ต้องทำ: ไปที่ไฟล์ app.ts เพิ่มคำสั่ง app.use(express.json()); และ app.use(express.text()); เพื่อให้ระบบเราอ่านข้อมูลที่ Angular ส่งมาได้
 
-[ ] เชื่อมต่อฐานข้อมูล MySQL (หัวใจสำคัญ)
+[x] เชื่อมต่อฐานข้อมูล MySQL (หัวใจสำคัญ)
 
 ไฟล์อ้างอิง: 06-Database Connection.md
 
 สิ่งที่ต้องทำ: ติดตั้งแพ็กเกจ mysql2 สร้างไฟล์ dbconnect.ts และเขียนโค้ดเพื่อทำ Connection Pool (เปลี่ยนข้อมูล user, password, database ให้ตรงกับของคุณ)
 
-[ ] จัดระเบียบเส้นทาง (Routing & Controller)
+[X] จัดระเบียบเส้นทาง (Routing & Controller)
 
 ไฟล์อ้างอิง: 02-Controller.md
 
 สิ่งที่ต้องทำ: สร้างโฟลเดอร์ controller เพื่อแยกการจัดการ API เช่น customer.ts (จัดการลูกค้า), order.ts (จัดการออเดอร์) และ route.ts (จัดการการคำนวณเส้นทาง) จากนั้นไปเชื่อมต่อใน app.ts
 
-[ ] เปิดประตูให้ฝั่ง Front-end (Angular) เข้าถึงได้
+[X] เปิดประตูให้ฝั่ง Front-end (Angular) เข้าถึงได้
 
 ไฟล์อ้างอิง: 12-CORS.md
 
@@ -35,31 +35,31 @@ Phase 1: ตั้งไข่โปรเจกต์ (Setup & Infrastructure)
 Phase 2: ออกแบบและจัดการข้อมูล (Data & CRUD)
 เป้าหมายคือสร้างโมเดลข้อมูลให้ชัดเจน และทำระบบ เพิ่ม ลบ แก้ไข (CRUD) พื้นฐานให้ร้านข้าวกล่อง
 
-[ ] ออกแบบโมเดลข้อมูล (Interface)
+[X] ออกแบบโมเดลข้อมูล (Interface)
 
 ไฟล์อ้างอิง: 07.01-Model Serialization.md
 
 สิ่งที่ต้องทำ: สร้างโฟลเดอร์ model และกำหนดโครงสร้างข้อมูลให้ชัดเจน เช่น Customer, Order, RiderJob (ใช้เครื่องมืออย่าง QuickType.io ช่วยแปลจาก JSON เป็น TypeScript ตามที่ไฟล์แนะนำ)
 
-[ ] สร้าง API ดึงข้อมูลและค้นหา (GET)
+[X] สร้าง API ดึงข้อมูลและค้นหา (GET)
 
 ไฟล์อ้างอิง: 07-Query.md, 04-Request Handler.md, 05-Response Handler.md
 
 สิ่งที่ต้องทำ: ใน controller (เช่น customer.ts, order.ts) เขียน API ดึงข้อมูลโดยใช้ req.params (เช่นหาด้วย ID) หรือ req.query (ค้นหาแบบมีเงื่อนไข) และใช้ res.json() ส่งข้อมูลกลับ (อย่าลืมใช้ ? ใน SQL ป้องกัน SQL Injection)
 
-[ ] สร้าง API บันทึกข้อมูล (POST - Insert)
+[X] สร้าง API บันทึกข้อมูล (POST - Insert)
 
 ไฟล์อ้างอิง: 08-Insert.md
 
 สิ่งที่ต้องทำ: เขียน API สำหรับรับออเดอร์ใหม่ หรือเพิ่มลูกค้าใหม่ โดยรับข้อมูลจาก req.body แปลงให้เข้ากับ Interface แล้วสั่ง INSERT ลงฐานข้อมูล
 
-[ ] สร้าง API อัปเดตข้อมูล (PUT - Update)
+[X] สร้าง API อัปเดตข้อมูล (PUT - Update)
 
 ไฟล์อ้างอิง: 10-Update.md
 
 สิ่งที่ต้องทำ: เขียน API สำหรับแก้ไขข้อมูล (เช่น ร้านค้ากดแก้ไขจำนวนข้าวกล่อง) แนะนำให้ใช้แบบ "Dynamic Merge" (ดึงข้อมูลเก่ามาผสมของใหม่) เพื่อความยืดหยุ่น
 
-[ ] สร้าง API ลบข้อมูล (DELETE)
+[X] สร้าง API ลบข้อมูล (DELETE)
 
 ไฟล์อ้างอิง: 09-Delete.md
 
